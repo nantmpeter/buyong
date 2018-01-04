@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\User;
+use App\Http\Resources\Users as UserCollection;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +14,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::middleware('api')->get('/test', 'HomeController@test')->name('test');
+
+Route::resource('users','\App\Http\Controllers\API\userAPIController')->middleware('auth:api');
+
+Route::get('/users', function () {
+    return new UserCollection(User::paginate());
+})->middleware('auth:api');
