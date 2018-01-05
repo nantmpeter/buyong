@@ -22,6 +22,12 @@ Route::middleware('api')->get('/test', 'HomeController@test')->name('test');
 
 Route::resource('users','\App\Http\Controllers\API\userAPIController')->middleware('auth:api');
 
+Route::resource('posts', '\App\Http\Controllers\API\postAPIController')->middleware('auth:api');;
+
 Route::get('/users', function () {
+    return new UserCollection(User::paginate());
+})->middleware('auth:api');
+
+Route::get('/posts', function () {
     return new UserCollection(User::paginate());
 })->middleware('auth:api');
